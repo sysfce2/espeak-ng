@@ -738,6 +738,19 @@ static int compile_dictlist_file(CompileContext *ctx, const char *path, const ch
 	while (fgets(buf, sizeof(buf), f_in) != NULL) {
 		ctx->linenum++;
 
+		size_t buf_len = strlen(buf);
+		if (buf_len > 0 && buf[buf_len-1] != '\n' && !feof(f_in)) {
+			// The line was longer than buf and has been split by fgets.
+			// Discard the remainder so it is not parsed as a separate
+			// (bogus) entry on the next iteration. Without this, a long
+			// entry with a trailing comment (e.g. a Sinhala or Myanmar
+			// emoji line) leaks a spurious entry whose key can hijack
+			// another word, such as a bare digit.
+			int ch;
+			while ((ch = fgetc(f_in)) != EOF && ch != '\n')
+				;
+		}
+
 		length = compile_line(ctx, buf, dict_line, sizeof(dict_line), &hash);
 		if (length == 0)  continue; // blank line
 
