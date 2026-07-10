@@ -1,0 +1,11 @@
+name Pashto (Yusufzai)
+language ps-x-yusufzai
+language ps 5
+maintainer Hanif Rahman <hanifkhan@gmail.com>
+status testing
+
+// Yusufzai (northern) Pashto realizes ښ as [x] and ږ as [ɡ], unlike the
+// southern (Kandahari) retroflex fricatives [ʂ] and [ʐ] used by the base
+// ps voice. The replace rules convert the shared dictionary post-lookup.
+replace 00 S. x
+replace 00 Z. g
