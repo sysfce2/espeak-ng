@@ -120,23 +120,19 @@ endphoneme
 
 phoneme ts
   // څ in Pashto - voiceless alveolar affricate
-  vls alv afr
+  // No instruction statements (e.g. ipa) may follow import_phoneme: they
+  // compile into a local program that replaces the imported FMT/WAV one.
+  import_phoneme consonants/ts
+  voicingswitch dz
   lengthmod 2
-  ipa ts
-  Vowelin f1=0  f2=1700 -300 300  f3=-100 80
-  Vowelout f1=0 f2=1700 -300 250  f3=-100 80  rms=20
-  WAV(ustop/ts)
 endphoneme
 
 phoneme dz
-  // ځ in Pashto - voiced alveolar affricate
-  vcd alv afr
-  lengthmod 5
-  ipa dz
+  // ځ in Pashto - voiced alveolar affricate; the master definition has the
+  // voiced closure plus a strong burst, the old local one rendered like [d]
+  import_phoneme consonants/dz
   voicingswitch ts
-  Vowelin f1=1  f2=1700 -300 300  f3=-100 80
-  Vowelout f1=1 f2=1700 -300 300  f3=-100 80  brk
-  WAV(ustop/ts) addWav(x/d, 70)  // Using standard WAV files
+  lengthmod 5
 endphoneme
 
 phoneme t.
