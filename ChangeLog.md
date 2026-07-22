@@ -11,8 +11,89 @@ The espeak-ng project is a fork of the espeak project.
 
 new languages:
 *  ab (Abkhaz) -- Marat Ionov
-*  ps (Pashto) -- Hanif Rahman 
+*  crh (Crimean Tatar) -- Andyvladescu73
+*  lij (Ligurian) -- Jean Maillard
+*  mn (Mongolian) -- Battseren Badral
+*  ps (Pashto) -- Hanif Rahman
 *  rup (Aromanian) -- Andy Vladescu
+
+updated languages:
+*  de (German) -- Sur3
+*  en (English) -- Fabio Lima
+*  es (Spanish) -- Fabio Lima, Mateito
+*  fa (Persian) -- ehsan esmaeeli
+*  fr (French) -- Fabio Lima
+*  he (Hebrew) -- Eyal Cohen
+*  hu (Hungarian) -- Attila Hammer
+*  ko (Korean) -- harmlessman
+*  pt (Portuguese) -- Fabio Lima
+*  ru (Russian) -- Alexander Epaneshnikov, AlexanderKhalmaktanov, Danstiv, kirill-jjj, mitrokun
+*  sv (Swedish) -- Daniel Nylander
+*  th (Thai) -- Samuel Thibault
+*  tlh (Klingon) -- fionnlagh
+
+bug fixes:
+*  numerous buffer-overflow, out-of-bounds and memory-safety hardening fixes across number, clause, dictionary, letter-lookup, Roman-numeral, klatt and mbrola code (fuzzing-driven) -- Samuel Thibault, Rudi Heitbaum, Jiami Lin, Erik Chan
+*  fixed infinite loop in rule matching with UTF-8 input -- Samuel Thibault
+*  fixed loss of final input byte from stdin -- Samuel Thibault
+*  fixed big-endian architecture support in libsonic -- Samuel Thibault
+*  fixed fuzzing of MBROLA voices -- Samuel Thibault
+*  improved error reporting in libpcaudio -- Samuel Thibault
+*  warn when MBROLA or Klatt synthesis is not compiled in -- Samuel Thibault
+*  fixed number handling for Slovak -- Samuel Thibault
+*  handled fread errors and propagate ENS_UNEXPECTED_EOF in spect -- Rudi Heitbaum
+*  fixed %x format specifier type mismatch in SSML parsing -- Rudi Heitbaum
+*  fixed character classification to handle ZWJ and variation selectors -- Tamas Geczy
+*  fixed PATH_ESPEAK_DATA macro type -- Anthony DePasquale
+*  added different voice identifier for Windows -- Charley3d
+*  increased Sonic synthesis activation threshold -- Danstiv
+
+features:
+*  matched ZWJ emoji sequences against multi-codepoint dictionary entries -- Alexander Epaneshnikov
+*  added skin tone emoji support: sequences are spoken as the base name plus the modifier names -- Alexander Epaneshnikov
+*  updated emoji and symbol data from CLDR 33.1 to CLDR 48.2 (Unicode Emoji 12..16) for 66 languages, with a new additive tools/update-emoji updater -- Alexander Epaneshnikov
+*  split emoji from adjacent words at clause tokenization -- Alexander Epaneshnikov
+*  added emoji recognition support for dictionary lookup -- Tamas Geczy
+*  added espeak_TextToPhonemesWithTerminator API function -- Jonathan McDowell
+
+build:
+*  removed autotools build system -- Alexander Epaneshnikov
+*  skip fetching libsonic if not present -- Ed Beroset
+*  fixed Windows build using stdlib.h _MAX_PATH -- Alexander Epaneshnikov
+*  restored intended RPATH behavior in CMake configuration -- Nicolas PARLANT
+*  configured CMake to use GNUInstallDirs -- Nicolas PARLANT
+*  configured CMake to use libdir for .pc file installation -- Nicolas PARLANT
+*  suppressed -Wformat-truncation warning for path buffer snprintf calls -- Rudi Heitbaum
+*  fixed Emscripten compatibility in wctype.h and refactored CMake dependency handling -- nemb111
+*  updated AGP and Gradle wrapper -- Alexander Epaneshnikov
+*  set default ESPEAK_COMPAT to ON in CMake -- Bjørn Forsman
+*  enabled position-independent code for sonic dependencies -- nihui
+*  allowed build with CMake 4.0.0 -- Rudi Heitbaum
+*  enabled intonation building during cross-compilation -- Rudi Heitbaum
+*  fixed pthread detection with earlier glibc versions -- Matthias Reichl
+*  added PATH_MAX support on Linux for file paths -- Rudi Heitbaum
+*  fixed ucd library linking -- David Chiu
+*  conditionally link CoreAudio frameworks on macOS -- thewh1teagle
+*  fixed CMake to build MBROLA files when unavailable -- Sertonix
+*  added CMake options for cross-compilation -- thewh1teagle
+
+android:
+*  added fallback to available voice when requested language is filtered out -- Alexander Epaneshnikov
+*  implemented Wear rotary crown support for numeric preferences -- Alexander Epaneshnikov
+*  removed ActionBar and tailored settings UI for Wear OS -- Alexander Epaneshnikov
+*  gated Wear launcher via runtime toggle -- Alexander Epaneshnikov
+*  refactored voice data extraction to TtsService -- Alexander Epaneshnikov
+*  added rate-boost toggle for Android -- Alexander Epaneshnikov
+*  added selectable supported languages in Android -- Alexander Epaneshnikov
+*  fixed Android max speech rate -- Danstiv
+*  removed compatibility fallback -- Ricardo Snoek-Valkenburg
+*  updated Russian localization in Android app -- AlexanderKhalmaktanov
+
+documentation:
+*  updated documentation to replace autotools references with CMake -- Alexander Epaneshnikov
+*  added SAPI5 engine project to README -- Beka Gozalishvili
+*  added syntax highlighting instructions for vim -- Fabio Lima
+*  added syntax highlighting instructions for nano -- Fabio Lima
 
 ### 1.52.0
 
