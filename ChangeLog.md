@@ -53,6 +53,7 @@ bug fixes:
 *  fixed dictionary compilation leaking bogus entries from over-length list lines -- Ramees Muhammed
 *  fixed Sinhala ZWJ conjunct clusters being read as separate letters instead of one conjunct -- Ramees Muhammed
 *  fixed Arabic text being spelled letter-by-letter under non-Arabic voices -- Ramees Muhammed
+*  fixed Russian decimal fractions to use feminine unit forms and numerators (e.g. "одна сотая", "две тысячных") -- Danil Kostenkov
 
 features:
 *  matched ZWJ emoji sequences against multi-codepoint dictionary entries -- Alexander Epaneshnikov
