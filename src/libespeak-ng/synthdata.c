@@ -366,7 +366,7 @@ void SelectPhonemeTable(int number)
 {
 	if (current_phoneme_table == number) return;
 	n_phoneme_tab = 0;
-	MAKE_MEM_UNDEFINED(&phoneme_tab, sizeof(phoneme_tab));
+	memset(phoneme_tab, 0, sizeof(phoneme_tab)); // clear so a code absent from the new table looks up as NULL, not a stale pointer from the previous table
 	SetUpPhonemeTable(number); // recursively for included phoneme tables
 	n_phoneme_tab++;
 	current_phoneme_table = number;
