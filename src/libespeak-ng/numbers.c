@@ -1260,6 +1260,7 @@ static int LookupNum3(Translator *tr, int value, char *ph_out, bool suppress_nul
 	//           bit 1,  ordinal number
 	//           bit 5   variant form of ordinal number
 	//           bit 8   followed by decimal fraction
+	//           bit 10  feminine number
 
 	int found;
 	int hundreds;
@@ -1419,6 +1420,8 @@ static int LookupNum3(Translator *tr, int value, char *ph_out, bool suppress_nul
 		x = 0;
 		if (thousandplex == 0) {
 			x = 2; // allow "eins" for 1 rather than "ein"
+			if (control & 0x400)
+				x |= 8; // use feminine form
 			if (ordinal)
 				x = 3; // ordinal number
 			if ((value < 100) && !(control & 1))
@@ -1492,6 +1495,7 @@ static int TranslateNumber_1(Translator *tr, char *word, char *ph_out, char *ph_
 	int decimal_count;
 	int max_decimal_count;
 	int decimal_mode;
+	bool fraction_suffix;
 	int suffix_ix;
 	int skipwords = 0;
 	int group_len;
@@ -1719,6 +1723,7 @@ static int TranslateNumber_1(Translator *tr, char *word, char *ph_out, char *ph_
 
 	while (decimal_point) {
 		n_digits++;
+		fraction_suffix = false;
 
 		decimal_count = 0;
 		while (IsDigit09(word[n_digits+decimal_count]))
@@ -1755,11 +1760,23 @@ static int TranslateNumber_1(Translator *tr, char *word, char *ph_out, char *ph_
 		case NUM_DFRACTION_1: // italian, say "hundredths" if leading zero
 		case NUM_DFRACTION_5: // hungarian, always say "tenths" etc.
 		case NUM_DFRACTION_6: // kazakh, always say "tenths" etc, before the decimal fraction
-			LookupNum3(tr, atoi(&word[n_digits]), ph_buf, false, 0, 0);
+			value = atoi(&word[n_digits]);
+			LookupNum3(tr, value, ph_buf, false, 0,
+			           (tr->langopts.numbers2 & NUM2_FRACTION_FEMININE) ? 0x400 : 0);
 			if ((word[n_digits] == '0') || (decimal_mode != NUM_DFRACTION_1)) {
 				// decimal part has leading zeros, so add a "hundredths" or "thousandths" suffix
-				sprintf(string, "_0Z%d", decimal_count);
-				if (Lookup(tr, string, buf1) == 0)
+				if ((tr->langopts.numbers2 & NUM2_FRACTION_FEMININE)
+				    && ((value % 10) == 1) && ((value % 100) != 11)) {
+					sprintf(string, "_0Z%ds", decimal_count);
+					Lookup(tr, string, buf1);
+				} else
+					buf1[0] = 0;
+
+				if (buf1[0] == 0) {
+					sprintf(string, "_0Z%d", decimal_count);
+					Lookup(tr, string, buf1);
+				}
+				if (buf1[0] == 0)
 					break; // revert to speaking single digits
 
 				if (decimal_mode == NUM_DFRACTION_6) {
@@ -1770,6 +1787,7 @@ static int TranslateNumber_1(Translator *tr, char *word, char *ph_out, char *ph_
 					ph_cur += len;
 				} else
 					strcat(ph_buf, buf1);
+				fraction_suffix = true;
 			}
 
 			len = strlen(ph_buf);
@@ -1821,7 +1839,7 @@ static int TranslateNumber_1(Translator *tr, char *word, char *ph_out, char *ph_
 		}
 
 		// something after the decimal part ?
-		if (Lookup(tr, "_dpt2", buf1)) {
+		if (!fraction_suffix && Lookup(tr, "_dpt2", buf1)) {
 			len = strlen(buf1);
 			if (ph_cur + len + 1 > ph_out_end)
 				goto stop;

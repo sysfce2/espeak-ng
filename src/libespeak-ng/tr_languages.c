@@ -1721,8 +1721,9 @@ static void Translator_Russian(Translator *tr)
 	tr->langopts.stress_rule = STRESSPOSN_SYLCOUNT;
 	tr->langopts.stress_flags = S_NO_AUTO_2;
 
-	tr->langopts.numbers = NUM_DECIMAL_COMMA | NUM_OMIT_1_HUNDRED;
-	tr->langopts.numbers2 = NUM2_THOUSANDPLEX_VAR_THOUSANDS | NUM2_THOUSANDS_VAR1; // variant numbers before thousands
+	tr->langopts.numbers = NUM_DECIMAL_COMMA | NUM_OMIT_1_HUNDRED | NUM_DFRACTION_5;
+	tr->langopts.numbers2 = NUM2_THOUSANDPLEX_VAR_THOUSANDS | NUM2_THOUSANDS_VAR1 |
+	                       NUM2_FRACTION_FEMININE; // variant numbers before thousands and in decimal fractions
 	tr->langopts.max_digits = 32;
 	tr->langopts.max_initial_consonants = 5;
 }		
