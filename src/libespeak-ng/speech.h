@@ -57,9 +57,9 @@ extern "C"
 #define PLATFORM_WINDOWS 1
 #define PATHSEP '\\'
 #define NO_VARIADIC_MACROS
-#include <windef.h>    // defines MAX_PATH (260, includes NUL)
+#include <stdlib.h>    // defines _MAX_PATH (260, includes NUL)
 #ifndef N_PATH_BUF
-#  define N_PATH_BUF  MAX_PATH
+#  define N_PATH_BUF  _MAX_PATH
 #endif
 
 #else
