@@ -48,6 +48,11 @@ bug fixes:
 *  fixed PATH_ESPEAK_DATA macro type -- Anthony DePasquale
 *  added different voice identifier for Windows -- Charley3d
 *  increased Sonic synthesis activation threshold -- Danstiv
+*  fixed IPA/phoneme output ignoring prevPh/prevPhW conditions (regression since #2082): restores linking-j suppression after i-vowels, German r-flap, etc. -- Alexander Epaneshnikov
+*  fixed reads of stale phoneme-table pointers after a mid-clause phoneme-table switch -- Alexander Epaneshnikov
+*  fixed dictionary compilation leaking bogus entries from over-length list lines -- Ramees Muhammed
+*  fixed Sinhala ZWJ conjunct clusters being read as separate letters instead of one conjunct -- Ramees Muhammed
+*  fixed Arabic text being spelled letter-by-letter under non-Arabic voices -- Ramees Muhammed
 
 features:
 *  matched ZWJ emoji sequences against multi-codepoint dictionary entries -- Alexander Epaneshnikov
@@ -57,6 +62,7 @@ features:
 *  split emoji from adjacent words at clause tokenization -- Alexander Epaneshnikov
 *  added emoji recognition support for dictionary lookup -- Tamas Geczy
 *  added espeak_TextToPhonemesWithTerminator API function -- Jonathan McDowell
+*  split a word where the script changes to a foreign one, so mixed-script tokens are translated per script instead of spelled out -- Ramees Muhammed
 
 build:
 *  removed autotools build system -- Alexander Epaneshnikov
@@ -78,6 +84,7 @@ build:
 *  conditionally link CoreAudio frameworks on macOS -- thewh1teagle
 *  fixed CMake to build MBROLA files when unavailable -- Sertonix
 *  added CMake options for cross-compilation -- thewh1teagle
+*  restored the fo (Faroese), kaa (Karakalpak) and xex dictionary builds under CMake -- Alexander Epaneshnikov
 
 android:
 *  added fallback to available voice when requested language is filtered out -- Alexander Epaneshnikov
