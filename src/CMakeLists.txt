@@ -1,5 +1,6 @@
 add_library(espeak-include INTERFACE)
 target_include_directories(espeak-include INTERFACE include include/compat)
+target_link_libraries(espeak-include INTERFACE ucd)
 
 add_subdirectory(ucd-tools)
 add_subdirectory(speechPlayer)
@@ -13,7 +14,7 @@ target_link_libraries(
 set_target_properties(
   espeak-ng-bin PROPERTIES
   MACOSX_RPATH ON
-  INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib"
+  INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}"
 )
 if (MINGW)
   target_link_options(espeak-ng-bin PRIVATE "-static-libstdc++" "-static")
